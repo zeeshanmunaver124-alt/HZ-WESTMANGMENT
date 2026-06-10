@@ -1,0 +1,832 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HZ Waste Management</title>
+  <link rel="icon" href="logo HZ.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-KyZXEAg3QhqLMpG8r+8jhAXgR0YF7fCpGQDEQ5oqcKXz2dM8kq+fFZlETnJkTtEY9+jG0KkqUuV8y2WfKIS6KQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #04081c;
+      --surface: rgba(18, 32, 74, 0.86);
+      --surface-strong: rgba(13, 22, 52, 0.94);
+      --text: #edf2ff;
+      --muted: #9bb4d7;
+      --accent: #f5b942;
+      --accent-soft: rgba(245, 185, 66, 0.18);
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(180deg, #05101f 0%, #040818 45%, #091020 100%);
+      color: var(--text);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url('backround.jpg') center/cover no-repeat;
+      opacity: 0.16;
+      filter: blur(2px);
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(245, 185, 66, 0.12), transparent 35%),
+                  radial-gradient(circle at bottom right, rgba(4, 120, 255, 0.14), transparent 25%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .page-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    header.site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      backdrop-filter: blur(16px);
+      background: rgba(3, 9, 35, 0.82);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .brand img {
+      width: 50px;
+      height: auto;
+      border-radius: 999px;
+      box-shadow: 0 10px 30px rgba(245, 185, 66, 0.18);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem 2rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: center;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .hero-copy {
+      max-width: 620px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(3rem, 4.5vw, 4.8rem);
+      line-height: 0.98;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .hero-copy p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      border: none;
+      border-radius: 999px;
+      padding: 0.95rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f5b942, #f7c96f);
+      color: #07101f;
+      box-shadow: 0 18px 45px rgba(245, 185, 66, 0.25);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-primary:hover,
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-visual {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 520px;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 32px;
+      background: radial-gradient(circle at top left, rgba(245, 185, 66, 0.28), transparent 28%),
+                  radial-gradient(circle at bottom right, rgba(33, 166, 255, 0.2), transparent 30%);
+      pointer-events: none;
+    }
+
+    .hero-card {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(4, 8, 28, 0.72), rgba(2, 7, 22, 0.96));
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      height: 420px;
+    }
+
+    .hero-card-text {
+      padding: 1.8rem 2rem;
+    }
+
+    .hero-card-text h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1.35rem;
+      color: var(--text);
+    }
+
+    .hero-card-text p {
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    main {
+      padding: 0 2rem 4rem;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .section {
+      margin-top: 4.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 2.3vw, 2.6rem);
+      color: var(--text);
+    }
+
+    .section-header p {
+      max-width: 650px;
+      color: var(--muted);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(245, 185, 66, 0.22);
+    }
+
+    .card h3 {
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      color: var(--text);
+    }
+
+    .card p {
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(245, 185, 66, 0.12);
+      color: var(--accent);
+      padding: 0.55rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 22px;
+      padding: 1.75rem;
+      text-align: center;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 2.15rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .stat-card span {
+      color: var(--muted);
+    }
+
+    .highlight-section {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    .highlight-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .highlight-panel h3 {
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .highlight-panel p,
+    .highlight-panel li {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .highlight-panel ul {
+      list-style: disc;
+      margin-left: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    /* Owner card */
+    .owner-wrap {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .owner-card {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(247, 111, 111, 0.06);
+      padding: 1rem 1.25rem;
+      border-radius: 16px;
+      max-width: 760px;
+      width: 100%;
+      box-shadow: 0 18px 40px rgba(2,6,20,0.5);
+    }
+
+    .owner-photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex: 0 0 110px;
+      border: 2px solid rgba(245,185,66,0.12);
+    }
+
+    .owner-photo img { width:100%; height:100%; object-fit:cover; display:block }
+
+    .owner-info h3 { margin:0; color:var(--text); font-size:1.15rem }
+    .owner-info p { margin:4px 0 0; color:var(--muted) }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .contact-card,
+    .contact-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-form label {
+      display: block;
+      margin-bottom: 0.7rem;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 1rem 1.1rem;
+      margin-bottom: 1.25rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .contact-form textarea {
+      min-height: 170px;
+      resize: vertical;
+    }
+
+    .contact-form button {
+      width: 100%;
+      background: linear-gradient(135deg, #f5b942, #f7c96f);
+      color: #07101f;
+      border: none;
+      border-radius: 999px;
+      padding: 1rem 1.4rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
+
+    .contact-form button:hover {
+      transform: translateY(-1px);
+    }
+
+    .footer {
+      margin-top: 4rem;
+      padding: 2rem 2rem 3rem;
+      background: rgba(3, 9, 35, 0.9);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footer p {
+      max-width: 840px;
+      margin: 0.5rem auto;
+      line-height: 1.9;
+      font-size: 0.95rem;
+    }
+
+    .footer .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .footer .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .footer .footer-links a:hover {
+      color: var(--text);
+    }
+
+    .menu-icon {
+      display: none;
+      width: 1.7rem;
+      height: 1.3rem;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .menu-icon span {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background: var(--text);
+      border-radius: 999px;
+    }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 9, 35, 0.96);
+      padding: 5rem 2rem 2rem;
+      z-index: 60;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .mobile-nav a {
+      color: var(--text);
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+
+    .mobile-nav .close-btn {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 1.4rem;
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    @media (max-width: 1040px) {
+      .hero-grid,
+      .highlight-section,
+      .contact-grid,
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero-copy h1 {
+        font-size: 3.2rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 720px) {
+      header.site-header {
+        padding: 1rem 1.25rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .menu-icon {
+        display: flex;
+      }
+
+      .hero {
+        padding-top: 5.5rem;
+      }
+    }
+
+    /* Ensure owner card stacks on small screens and stays visible */
+    @media (max-width: 900px) {
+      .owner-card { flex-direction: column; align-items: flex-start; gap: 0.85rem }
+      .owner-photo { width: 92px; height: 92px; flex: 0 0 92px }
+      .owner-info p { margin-top:6px }
+    }
+
+    /* Prevent fixed header from covering top content on small screens */
+    @media (max-width: 720px) {
+      main { padding-top: 2.25rem } /* extra space so top content isn't hidden */
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <header class="site-header">
+      <a href="#home" class="brand">
+        <img src="logo HZ.png" alt="HZ Logo">
+        <span>HZ Waste Management</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="complain.html">Complain</a></li>
+        </ul>
+      </nav>
+      <button class="menu-icon" aria-label="Open mobile menu" id="openMobileNav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <div class="hero" id="home">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow"><i class="fas fa-crown"></i> Premium Waste Services</span>
+          <h1>Transforming Waste Into Cleaner, Safer Communities.</h1>
+          <p>HZ Waste Management delivers elite residential, commercial and recycling programs with modern systems, trusted operations, and a commitment to environmental excellence.</p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn-primary">Get a Free Quote</a>
+            <a href="#services" class="btn-secondary">View Services</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <article class="hero-card">
+            <img src="hamid2.PNG" alt="HZ Waste Management service">
+            <div class="hero-card-text">
+              <div class="badge"><i class="fas fa-award"></i> Trusted Since 2022</div>
+              <h3>Reliable sanitation backed by local expertise</h3>
+              <p>We support Karachi businesses and households with timely collection, responsible disposal and recyclable recovery.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" id="services">
+        <div class="section-header">
+          <div>
+            <h2>Our Services</h2>
+            <p>Professional waste management solutions built for modern neighborhoods, offices and institutions.</p>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3>Residential Collection</h3>
+            <p>Door-to-door pickup, waste segregation, and scheduling that keeps homes clean with zero hassle.</p>
+          </article>
+          <article class="card">
+            <h3>Corporate Solutions</h3>
+            <p>Custom programs for businesses, commercial buildings and facilities with efficient route planning and reporting.</p>
+          </article>
+          <article class="card">
+            <h3>Recycling & Recovery</h3>
+            <p>Smart recycling streams designed to reduce landfill waste and preserve resources for a more sustainable future.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <h2>Why choose HZ?</h2>
+            <p>We combine premium presentation with practical operations so every client feels supported and every service is delivered with care.</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <strong>120+</strong>
+            <span>Corporate clients</span>
+          </div>
+          <div class="stat-card">
+            <strong>500+</strong>
+            <span>Projects completed</span>
+          </div>
+          <div class="stat-card">
+            <strong>2+</strong>
+            <span>Years of experience</span>
+          </div>
+        </div>
+      </section>
+
+        <!-- Owner / Founder -->
+        <section class="section">
+          <div class="owner-wrap">
+            <div class="owner-card">
+              <div class="owner-photo">
+                <img src="Capture.PNG" alt="Hamid Munawar">
+              </div>
+              <div class="owner-info">
+                <h3>Hamid Munawar</h3>
+                <p>Founder & Chief Executive Officer</p>
+                <p style="margin-top:8px; max-width:620px; color:var(--muted)">Hamid leads HZ Waste Management with a focus on operational excellence, community service and sustainable sanitation solutions across Karachi.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      <section class="section" id="about">
+        <div class="section-header">
+          <div>
+            <h2>About HZ Waste Management</h2>
+            <p>Our team delivers professional, compliant and customer-first waste services across Karachi.</p>
+          </div>
+        </div>
+
+        <div class="highlight-section">
+          <div class="highlight-panel">
+            <h3>Leadership & Vision</h3>
+            <p>Led by Mr. Hamid Munawar, HZ Waste Management is committed to operational integrity, environmental responsibility, and consistent service quality.</p>
+            <ul>
+              <li>Safe and modern waste handling</li>
+              <li>Transparent communication and easy scheduling</li>
+              <li>Dedicated local support for every client</li>
+            </ul>
+          </div>
+          <div class="highlight-panel">
+            <h3>Corporate Credentials</h3>
+            <p>We operate as a registered and FBR-active company, delivering services that meet local compliance and high customer expectations.</p>
+            <ul>
+              <li>Company registration with SECP</li>
+              <li>Income tax active with FBR Pakistan</li>
+              <li>Office: Shop #32, KDA Mobile Market, Sector 4B, Surjani Town</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="section-header">
+          <div>
+            <h2>Contact Us</h2>
+            <p>Request service, schedule a consultation, or learn how we can support your property with premium waste management.</p>
+          </div>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <h3>Get in touch</h3>
+            <p>Call or email our team for immediate support and service planning.</p>
+            <ul style="list-style:none; padding:0; margin-top:1.5rem; color: var(--muted);">
+              <li style="margin-bottom:1rem;"><strong style="color:var(--text);">Phone:</strong> 0311 2607724</li>
+              <li style="margin-bottom:1rem;"><strong style="color:var(--text);"> Support Email:</strong> zeeshanmunaver@gmail.com</li>
+              <li><strong style="color:var(--text);">Office:</strong> Shop #32, KDA Mobile Market, Sector 4B, Surjani Town, Karachi</li>
+            </ul>
+          </div>
+
+          <form class="contact-form">
+            <label for="name">Full Name</label>
+            <input id="name" type="text" placeholder="Your full name" required>
+            <label for="email">Email address</label>
+            <input id="email" type="email" placeholder="Your email" required>
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Tell us how we can help" required></textarea>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>HZ Waste Management delivers a premium waste experience for residential and commercial clients. Trusted locally with professional service standards and fast response.</p>
+      <div class="footer-links">
+        <a href="https://wa.me/923001234567" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="complain.html">Complain</a>
+      </div>
+    </footer>
+
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <button class="close-btn" id="closeMobileNav" aria-label="Close mobile menu"><i class="fas fa-times"></i></button>
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="complain.html">Complain</a>
+    </div>
+  </div>
+
+  <script>
+    const openBtn = document.getElementById('openMobileNav');
+    const closeBtn = document.getElementById('closeMobileNav');
+    const mobileNav = document.getElementById('mobileNav');
+
+    if (openBtn && mobileNav) {
+      openBtn.addEventListener('click', () => {
+        mobileNav.style.display = 'flex';
+        mobileNav.setAttribute('aria-hidden', 'false');
+      });
+    }
+
+    if (closeBtn && mobileNav) {
+      closeBtn.addEventListener('click', () => {
+        mobileNav.style.display = 'none';
+        mobileNav.setAttribute('aria-hidden', 'true'); 
+      });
+    }
+
+    document.addEventListener('click', (event) => {
+      if (!mobileNav) return;
+      const target = event.target;
+      if (mobileNav.style.display === 'flex') {
+        const clickedOutside = !mobileNav.contains(target) && !(openBtn && openBtn.contains(target));
+        if (clickedOutside) {
+          mobileNav.style.display = 'none';
+          mobileNav.setAttribute('aria-hidden', 'true');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
